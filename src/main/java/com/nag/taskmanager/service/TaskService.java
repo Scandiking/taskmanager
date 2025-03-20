@@ -61,7 +61,7 @@ public class TaskService {
                 .orElseThrow(() -> new EntityNotFoundException("Room not found with id: " + taskDTO.getRoomId()));
 
         // Validate creator is in the room
-        if (personRoomRepository.findByPersonIdAndRoomId(creator.getId(), room.getId()).isEmpty()) {
+        if (personRoomRepository.findByPerson_IdAndRoom_Id(creator.getId(), room.getId()).isEmpty()) {
             throw new ValidationException("Creator must be in the specified room");
         }
 
@@ -72,7 +72,7 @@ public class TaskService {
                 Person assignee = personRepository.findById(assigneeId)
                         .orElseThrow(() -> new EntityNotFoundException("Person not found with id: " + assigneeId));
 
-                if (personRoomRepository.findByPersonIdAndRoomId(assignee.getId(), room.getId()).isEmpty()) {
+                if (personRoomRepository.findByPerson_IdAndRoom_Id(assignee.getId(), room.getId()).isEmpty()) {
                     throw new ValidationException("Assignee must be in the specified room");
                 }
                 assignees.add(assignee);
@@ -138,7 +138,7 @@ public class TaskService {
                 .orElseThrow(() -> new EntityNotFoundException("Room not found"));
 
         // Get all persons in the room using the join entity
-        Set<Person> personsInRoom = personRoomRepository.findByRoomId(roomId)
+        Set<Person> personsInRoom = personRoomRepository.findByRoom_Id(roomId)
                 .stream()
                 .map(PersonRoom::getPerson)
                 .collect(Collectors.toSet());

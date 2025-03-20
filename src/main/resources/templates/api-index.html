@@ -13,7 +13,7 @@
 <h1>API Endpoints</h1>
 <ul>
     <li th:each="endpoint : ${endpoints}">
-        <a th:href="${endpoint.url}" th:text="${endpoint.name}"></a>
+        <a th:href="${endpoint['url']}" th:text="${endpoint['name']}"></a>
     </li>
 </ul>
 <h2>Managing entities</h2>
@@ -41,5 +41,139 @@
     <li>Update task <code>PUT</code></li>
     <li>Delete task <code>DELETE</code></li>
 </ul>
+<h3>PersonRooms</h3>
+<ul>
+    <li>Get all PersonRooms</li>
+    <li>Get PersonRoom by id</li>
+    <li>Create PersonRoom</li>
+    <li>Update PersonRoom</li>
+    <li>Delete PersonRoom</li>
+</ul>
+
+<table style="border-collapse: collapse; width: 80%; margin-bottom: 20px;">
+    <tr style="background-color: #f2f2f2;">
+        <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">HTTP Method</th>
+        <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">URL</th>
+        <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Description</th>
+    </tr>
+    <!-- Dynamic endpoints with fallback description text -->
+    <tr th:each="endpoint : ${endpoints}" style="border-bottom: 1px solid #ddd;">
+        <td style="border: 1px solid #ddd; padding: 12px;" th:text="${endpoint['method']}">GET</td>
+        <td style="border: 1px solid #ddd; padding: 12px;" th:text="${endpoint['url']}"></td>
+        <td style="border: 1px solid #ddd; padding: 12px;" th:text="${endpoint['description'] ?: 'API endpoint'}">API endpoint</td>
+    </tr>
+
+    <!-- Room endpoints -->
+    <tr>
+        <td style="border: 1px solid #ddd; padding: 12px;">GET</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">/api/rooms</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Get all rooms</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ddd; padding: 12px;">GET</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">/api/rooms/{id}</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Get room by ID</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ddd; padding: 12px;">POST</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">/api/rooms</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Create a new room</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ddd; padding: 12px;">PUT</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">/api/rooms/{id}</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Update an existing room</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ddd; padding: 12px;">DELETE</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">/api/rooms/{id}</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Delete a room</td>
+    </tr>
+
+    <!-- Person endpoints -->
+    <tr>
+        <td style="border: 1px solid #ddd; padding: 12px;">GET</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">/api/persons</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Get all persons</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ddd; padding: 12px;">GET</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">/api/persons/{id}</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Get person by ID</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ddd; padding: 12px;">POST</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">/api/persons</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Create a new person</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ddd; padding: 12px;">PUT</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">/api/persons/{id}</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Update an existing person</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ddd; padding: 12px;">DELETE</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">/api/persons/{id}</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Delete a person</td>
+    </tr>
+
+    <!-- Task endpoints -->
+    <tr>
+        <td style="border: 1px solid #ddd; padding: 12px;">GET</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">/api/tasks</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Get all tasks</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ddd; padding: 12px;">GET</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">/api/tasks/{id}</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Get task by ID</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ddd; padding: 12px;">POST</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">/api/tasks</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Create a new task</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ddd; padding: 12px;">PUT</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">/api/tasks/{id}</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Update an existing task</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ddd; padding: 12px;">DELETE</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">/api/tasks/{id}</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Delete a task</td>
+    </tr>
+
+    <!-- PersonRoom endpoints -->
+    <tr>
+        <td style="border: 1px solid #ddd; padding: 12px;">GET</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">/api/person-rooms</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Get all person-room assignments</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ddd; padding: 12px;">GET</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">/api/person-rooms/{id}</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Get person-room assignment by ID</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ddd; padding: 12px;">POST</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">/api/person-rooms</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Create a new person-room assignment</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ddd; padding: 12px;">PUT</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">/api/person-rooms/{id}</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Update an existing person-room assignment</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ddd; padding: 12px;">DELETE</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">/api/person-rooms/{id}</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Delete a person-room assignment</td>
+    </tr>
+</table>
+
+
+
+
 </body>
 </html>
