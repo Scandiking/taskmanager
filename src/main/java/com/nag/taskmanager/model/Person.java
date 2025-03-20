@@ -1,3 +1,7 @@
+/*
+Person entity.
+ */
+
 package com.nag.taskmanager.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
