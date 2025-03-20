@@ -8,31 +8,46 @@ import jakarta.validation.constraints.NotBlank;
 
 import java.util.HashSet;
 import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "persons")
 public class Person {
 
+    // Getters and setters
+    @Setter
+    @Getter
     @Id // primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // no need for @notblank because it's auto-generated
     private Long id;
 
+    @Setter
+    @Getter
     @Column
     @NotBlank
     private String firstName;
 
+    @Setter
+    @Getter
     @Column
     @NotBlank
     private String lastName;
 
+    @Setter
+    @Getter
     @Column
     @NotBlank
     private String email;
 
+    @Setter
+    @Getter
     @Column
     @NotBlank
     private String phone;
 
+    @Setter
+    @Getter
     @ManyToMany
     @JoinTable(
             name = "person_room",
@@ -55,55 +70,6 @@ public class Person {
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
-    }
-
-    // Getters and setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public Set<Room> getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(Set<Room> rooms) {
-        this.rooms = rooms;
     }
 
     // Equals, hashCode and toString methods
