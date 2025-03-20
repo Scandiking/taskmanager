@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>API Endpoints</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<p>If you are seeing this page</p>
+<img src="/images/GreatSuccess.jpg" alt="Sacha Baron Cohen posing with two thumbs up saying 'Great Success'" style="width: 200px; height: 240px;">
+<p>This means that the files are working as expected, and that there is connection to the database.</p>
+<p>Now, what to do? You retrieve (<code>GET</code>), add (<code>POST</code>), update (<code>PUT</code>), or delete (<code>DELETE</code>) records using for example Postman. We will refrain from using URL-based requests as per the assignment criteria (in regards to REST principles, security issues, XSS (CSRF). Also data types such as arrays are harder to represent in the URL. </p> To check out the results, visit:
+<h1>API Endpoints</h1>
+<ul>
+    <li th:each="endpoint : ${endpoints}">
+        <a th:href="${endpoint.url}" th:text="${endpoint.name}"></a>
+    </li>
+</ul>
+<h2>Managing entities</h2>
+<h3>Rooms</h3>
+<ul>
+    <li>Get all rooms <code>GET</code> </li>
+    <li>Get room by id <code>GET</code></li>
+    <li>Create a room <code>POST</code></li>
+    <li>Update room <code>PUT</code></li>
+    <li>Delete room <code>DELETE</code></li>
+</ul>
+<h3>Persons</h3>
+<ul>
+    <li>Get all persons <code>GET</code></li>
+    <li>Get person by id <code>GET</code></li>
+    <li>Create person <code>POST</code></li>
+    <li>Update person <code>PUT</code></li>
+    <li>Delete person <code>DELETE</code></li>
+</ul>
+<h3>Tasks</h3>
+<ul>
+    <li>Get all tasks <code>GET</code></li>
+    <li>Get task by id <code>GET</code></li>
+    <li>Create task <code>POST</code></li>
+    <li>Update task <code>PUT</code></li>
+    <li>Delete task <code>DELETE</code></li>
+</ul>
+</body>
+</html>
