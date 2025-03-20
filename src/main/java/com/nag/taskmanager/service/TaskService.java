@@ -2,9 +2,11 @@ package com.nag.taskmanager.service;
 
 import com.nag.taskmanager.dto.TaskDTO;
 import com.nag.taskmanager.model.Person;
+import com.nag.taskmanager.model.PersonRoom;
 import com.nag.taskmanager.model.Room;
 import com.nag.taskmanager.model.Task;
 import com.nag.taskmanager.repository.PersonRepository;
+import com.nag.taskmanager.repository.PersonRoomRepository;
 import com.nag.taskmanager.repository.RoomRepository;
 import com.nag.taskmanager.repository.TaskRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -23,12 +25,15 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final PersonRepository personRepository;
     private final RoomRepository roomRepository;
+    private final PersonRoomRepository personRoomRepository;
 
     @Autowired
-    public TaskService(TaskRepository taskRepository, PersonRepository personRepository, RoomRepository roomRepository) {
+    public TaskService(TaskRepository taskRepository, PersonRepository personRepository,
+                       RoomRepository roomRepository, PersonRoomRepository personRoomRepository) {
         this.taskRepository = taskRepository;
         this.personRepository = personRepository;
         this.roomRepository = roomRepository;
+        this.personRoomRepository = personRoomRepository;
     }
 
     @Transactional(readOnly=true)
@@ -56,7 +61,7 @@ public class TaskService {
                 .orElseThrow(() -> new EntityNotFoundException("Room not found with id: " + taskDTO.getRoomId()));
 
         // Validate creator is in the room
-        if (!creator.getRooms().contains(room)) {
+        if (personRoomRepository.findByPersonIdAndRoomId(creator.getId(), room.getId()).isEmpty()) {
             throw new ValidationException("Creator must be in the specified room");
         }
 
@@ -67,13 +72,12 @@ public class TaskService {
                 Person assignee = personRepository.findById(assigneeId)
                         .orElseThrow(() -> new EntityNotFoundException("Person not found with id: " + assigneeId));
 
-                if (!assignee.getRooms().contains(room)) {
+                if (personRoomRepository.findByPersonIdAndRoomId(assignee.getId(), room.getId()).isEmpty()) {
                     throw new ValidationException("Assignee must be in the specified room");
                 }
                 assignees.add(assignee);
             }
         }
-
 
         Task task = new Task();
         task.setName(taskDTO.getName());
@@ -133,8 +137,14 @@ public class TaskService {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new EntityNotFoundException("Room not found"));
 
+        // Get all persons in the room using the join entity
+        Set<Person> personsInRoom = personRoomRepository.findByRoomId(roomId)
+                .stream()
+                .map(PersonRoom::getPerson)
+                .collect(Collectors.toSet());
+
         // Assign task to all persons in the room
-        task.setAssignees(new HashSet<>(room.getPersons()));
+        task.setAssignees(new HashSet<>(personsInRoom));
 
         Task savedTask = taskRepository.save(task);
         return convertToDTO(savedTask);
@@ -149,7 +159,6 @@ public class TaskService {
     }
 
     public void deleteTask(Long id) {
-        // TODO Auto-generated method stub
-
+        deleteTaskById(id);
     }
 }

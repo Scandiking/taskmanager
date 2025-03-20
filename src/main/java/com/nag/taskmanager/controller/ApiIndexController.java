@@ -18,7 +18,8 @@ public class ApiIndexController {
         model.addAttribute("endpoints", List.of(
                 Map.of("name", "Persons", "url", "/api/persons"),
                 Map.of("name", "Rooms", "url", "/api/rooms"),
-                Map.of("name", "Tasks", "url", "/api/tasks")
+                Map.of("name", "Tasks", "url", "/api/tasks"),
+                Map.of("name", "PersonRooms", "url", "/api/person-rooms")
         ));
 
         return "api-index";

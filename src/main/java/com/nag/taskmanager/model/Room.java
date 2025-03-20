@@ -25,15 +25,24 @@ public class Room {
     @Column
     private Integer capacity;
 
-    @ManyToMany(mappedBy = "rooms")
-    private Set<Person> persons = new HashSet<>();
+    @OneToMany(mappedBy = "room")
+    private Set<PersonRoom> personRooms = new HashSet<>();
+
 
     public Set<Person> getPersons() {
-        return persons;
+        Set<Person> result = new HashSet<>();
+        for (PersonRoom pr : personRooms) {
+            result.add(pr.getPerson());
+        }
+        return result;
     }
 
-    public void setPersons(Set<Person> persons) {
-        this.persons = persons;
+    // Add a person through the join relationship
+    public void addPerson(Person person) {
+        PersonRoom personRoom = new PersonRoom();
+        personRoom.setPerson(person);
+        personRoom.setRoom(this);
+        this.personRooms.add(personRoom);
     }
 
     // Default construtor required by JPA
@@ -81,9 +90,7 @@ public class Room {
         this.capacity = capacity;
     }
 
-    public void setMembers(Set<Person> members) {
-        this.persons = members;
-    }
+
 
     // equals, hashCode and toString methods
     @Override
@@ -109,4 +116,7 @@ public class Room {
                 '}';
     }
 
+    public void getID() {
+
+    }
 }

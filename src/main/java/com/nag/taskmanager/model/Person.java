@@ -46,15 +46,9 @@ public class Person {
     @NotBlank
     private String phone;
 
-    @Setter
-    @Getter
-    @ManyToMany
-    @JoinTable(
-            name = "person_room",
-            joinColumns = @JoinColumn(name="person_id"),
-            inverseJoinColumns = @JoinColumn(name="room_id")
-    )
-    private Set<Room> rooms = new HashSet<>();
+    @OneToMany(mappedBy = "person")
+    private Set<PersonRoom> personRooms = new HashSet<>();
+
 
     @ManyToMany(mappedBy = "assignees")
     private Set<Task> tasks = new HashSet<>();
