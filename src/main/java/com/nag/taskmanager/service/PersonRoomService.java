@@ -1,3 +1,5 @@
+// Service class with business logic
+
 package com.nag.taskmanager.service;
 
 import com.nag.taskmanager.dto.PersonRoomDTO;
@@ -28,6 +30,7 @@ public class PersonRoomService {
         this.roomRepository = roomRepository;
     }
 
+    // Business logic to assign a person to a room
     public PersonRoom assignPersonToRoom(PersonRoomDTO dto) {
         Person person = personRepository.findById(dto.getPersonId())
                 .orElseThrow(() -> new EntityNotFoundException("Person not found"));
@@ -43,6 +46,7 @@ public class PersonRoomService {
         return personRoomRepository.save(personRoom);
     }
 
+    // Business logic to get all person rooms
     public List<PersonRoom> getAllPersonRooms() {
         return personRoomRepository.findAll();
     }

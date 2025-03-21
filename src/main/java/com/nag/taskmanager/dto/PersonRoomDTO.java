@@ -7,13 +7,13 @@ public class PersonRoomDTO {
 
     private Long id;
 
-    @NotNull(message="Person ID is required")
+    @NotNull(message="Person ID is required. Enter a person ID.")
     private Long personId;
 
-    @NotNull(message="Room ID is required")
+    @NotNull(message="Room ID is required. Enter a room ID.")
     private Long roomId;
 
-    private String role;
+    private String role; // Optional field
 
     // Getters and setters
     public Long getId() {

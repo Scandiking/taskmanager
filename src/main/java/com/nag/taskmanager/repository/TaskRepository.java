@@ -1,3 +1,5 @@
+// Repository interface for data access
+
 package com.nag.taskmanager.repository;
 
 import com.nag.taskmanager.model.Task;

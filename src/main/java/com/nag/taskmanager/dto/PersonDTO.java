@@ -13,13 +13,13 @@ public class PersonDTO {
     // Getters and setters
     private Long id;
 
-    @NotBlank(message="First name is required")
+    @NotBlank(message="First name is required. Enter a first name.")
     private String firstName;
-    @NotBlank(message="Last name is required")
+    @NotBlank(message="Last name is required. Enter a last name.")
     private String lastName;
-    @NotBlank(message="Email is required")
+    @NotBlank(message="Email is required. Enter an email.")
     private String email;
-    @NotBlank(message="Phone is required")
+    @NotBlank(message="Phone is required. Enter a phone number.")
     private String phone;
 
     public PersonDTO() {

@@ -1,3 +1,5 @@
+// Entity class that represent data model for a room
+
 package com.nag.taskmanager.model;
 import jakarta.persistence.*;
 import org.springframework.boot.autoconfigure.domain.EntityScan;

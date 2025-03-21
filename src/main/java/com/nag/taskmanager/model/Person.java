@@ -1,16 +1,20 @@
+// Entity class that represent data model for a person.
 /*
 Person entity.
  */
 
 package com.nag.taskmanager.model;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import lombok.Getter;
 import lombok.Setter;
 
+// Entity class that represents Person entity
 @Entity
 @Table(name = "persons")
 public class Person {

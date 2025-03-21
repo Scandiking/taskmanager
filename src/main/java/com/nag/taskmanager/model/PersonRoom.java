@@ -1,3 +1,5 @@
+// Entity class that represents the join table between Person and Room
+
 package com.nag.taskmanager.model;
 import jakarta.persistence.*;
 

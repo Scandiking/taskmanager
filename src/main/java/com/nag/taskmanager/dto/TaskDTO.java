@@ -15,19 +15,19 @@ public class TaskDTO {
     // Getters and setters
     private Long id;
 
-    @NotBlank(message="Task name is required")
+    @NotBlank(message="Task name is required. Enter a task name.")
     private String name;
 
     // Description is not needed
     private String description;
 
-    @NotNull(message="Creator ID is required")
+    @NotNull(message="Creator ID is required. Enter a creator ID.")
     private Long creatorId;
 
-    @NotNull(message="Room ID is required")
+    @NotNull(message="Room ID is required. Enter a room ID.")
     private Long roomId;
 
-    private List<Long> assigneeIds;
+    private List<Long> assigneeIds; // Optional field
 
     // Constructors, getters and setters
     public TaskDTO() {

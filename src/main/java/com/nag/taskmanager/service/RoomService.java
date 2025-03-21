@@ -1,3 +1,5 @@
+// Service class with business logic
+
 package com.nag.taskmanager.service;
 
 import com.nag.taskmanager.dto.RoomDTO;
@@ -16,11 +18,13 @@ import jakarta.persistence.EntityNotFoundException;
 public class RoomService {
     private final RoomRepository roomRepository;
 
+    // Constructor-based dependency injection
     @Autowired
     public RoomService(RoomRepository roomRepository) {
         this.roomRepository = roomRepository;
     }
 
+    // Business logic to get all rooms
     @Transactional(readOnly=true)
     public List<RoomDTO> getAllRooms() {
         return roomRepository.findAll().stream()
@@ -28,6 +32,7 @@ public class RoomService {
                 .collect(Collectors.toList());
     }
 
+    // Business logic to get a room by id
     @Transactional(readOnly=true)
     public RoomDTO getRoomById(Long id) {
         Room room = roomRepository.findById(id)
@@ -35,6 +40,7 @@ public class RoomService {
         return convertToDTO(room);
     }
 
+    // Business logic to create a room
     @Transactional
     public RoomDTO createRoom(RoomDTO roomDTO) {
         Room room = convertToEntity(roomDTO);
@@ -42,6 +48,7 @@ public class RoomService {
         return convertToDTO(savedRoom);
     }
 
+    // Business logic to update a room
     @Transactional
     public RoomDTO updateRoom(Long id, RoomDTO roomDTO) {
         // Check if room ecists
@@ -55,6 +62,7 @@ public class RoomService {
         return convertToDTO(updatedRoom);
     }
 
+    // Business logic to delete a room
     @Transactional
     public void deleteRoom(Long id) {
         // Check if room exists
@@ -74,6 +82,7 @@ public class RoomService {
         );
     }
 
+    // Helper methods to convert between DTO and entity
     private Room convertToEntity(RoomDTO roomDTO) {
         Room room = new Room();
         room.setId(roomDTO.getId());

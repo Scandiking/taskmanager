@@ -1,3 +1,5 @@
+// Entity class that represents Task entity
+
 package com.nag.taskmanager.model;
 import jakarta.persistence.*;
 import java.util.Set;

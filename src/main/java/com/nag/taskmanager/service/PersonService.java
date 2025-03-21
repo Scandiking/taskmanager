@@ -1,3 +1,5 @@
+// Service class with business logic
+
 package com.nag.taskmanager.service;
 
 import com.nag.taskmanager.dto.PersonDTO;
@@ -17,11 +19,13 @@ public class PersonService {
 
     private final PersonRepository personRepository;
 
+    // Constructor-based dependency injection
     @Autowired
     public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
 
+    // Business logic to get all persons
     @Transactional(readOnly = true)
     public List<PersonDTO> getAllPersons() {
         return personRepository.findAll().stream()
@@ -29,12 +33,14 @@ public class PersonService {
                 .collect(Collectors.toList());
     }
 
+    // Business logic to get a person by id
     @Transactional(readOnly = true)
     public PersonDTO getPersonById(Long id) {
         Person person = personRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Person not found with id: " + id));
     return convertToDTO(person);
     }
 
+    // Business logic to create a person
     @Transactional
     public PersonDTO createPerson(PersonDTO personDTO) {
         Person person = convertToEntity(personDTO);
@@ -42,6 +48,7 @@ public class PersonService {
         return convertToDTO(savedPerson);
     }
 
+    // Business logic to update a person
     @Transactional
     public PersonDTO updatePerson(Long id, PersonDTO personDTO) {
         if (!personRepository.existsById(id)) {
@@ -54,6 +61,7 @@ public class PersonService {
         return convertToDTO(updatedPerson);
     }
 
+    // Business logic to delete a person
     @Transactional
     public void deletePerson(Long id) {
         if (!personRepository.existsById(id)) {
@@ -73,6 +81,7 @@ public class PersonService {
         );
     }
 
+    // Helper methods to convert between DTO and entity
     private Person convertToEntity(PersonDTO personDTO) {
         Person person = new Person();
         person.setId(personDTO.getId());

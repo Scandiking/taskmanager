@@ -1,3 +1,5 @@
+// Service class with business logic
+
 package com.nag.taskmanager.service;
 
 import com.nag.taskmanager.dto.TaskDTO;
@@ -27,6 +29,7 @@ public class TaskService {
     private final RoomRepository roomRepository;
     private final PersonRoomRepository personRoomRepository;
 
+    // Constructor-based dependency injection
     @Autowired
     public TaskService(TaskRepository taskRepository, PersonRepository personRepository,
                        RoomRepository roomRepository, PersonRoomRepository personRoomRepository) {
@@ -36,6 +39,7 @@ public class TaskService {
         this.personRoomRepository = personRoomRepository;
     }
 
+    // Business logic to get all tasks
     @Transactional(readOnly=true)
     public List<TaskDTO> getAllTasks() {
         return taskRepository.findAll().stream()
@@ -43,6 +47,7 @@ public class TaskService {
                 .collect(Collectors.toList());
     }
 
+    // Business logic to get a task by id
     @Transactional(readOnly=true)
     public TaskDTO getTaskById(Long id) {
         Task task = taskRepository.findById(id)
@@ -50,6 +55,7 @@ public class TaskService {
         return convertToDTO(task);
     }
 
+    // Business logic to create a task
     @Transactional
     public TaskDTO createTask(TaskDTO taskDTO) {
         // Validate creator exists
@@ -89,6 +95,7 @@ public class TaskService {
         return convertToDTO(savedTask);
     }
 
+    // Business logic to update a task
     @Transactional
     public TaskDTO updateTask(Long id, TaskDTO taskDTO) {
         if (!taskRepository.existsById(id)) {
@@ -101,6 +108,7 @@ public class TaskService {
         return convertToDTO(updatedTask);
     }
 
+    // Business logic to delete a task
     @Transactional
     public void deleteTaskById(Long id) {
         if (!taskRepository.existsById(id)) {
@@ -129,6 +137,7 @@ public class TaskService {
         return dto;
     }
 
+    // Business logic to assign a task to a room
     @Transactional
     public TaskDTO assignTaskToRoom(Long taskId, Long roomId) {
         Task task = taskRepository.findById(taskId)
@@ -150,6 +159,7 @@ public class TaskService {
         return convertToDTO(savedTask);
     }
 
+    // Helper method to convert DTO to entity
     private Task convertToEntity(TaskDTO taskDTO) {
         Task task = new Task();
         task.setId(taskDTO.getId());
@@ -158,6 +168,7 @@ public class TaskService {
         return task;
     }
 
+    // Business logic to delete a task
     public void deleteTask(Long id) {
         deleteTaskById(id);
     }
