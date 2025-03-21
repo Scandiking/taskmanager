@@ -14,28 +14,36 @@ import java.util.List;
 @RequestMapping("/api/rooms") // Base path for all endpoints in the Room controller
 public class RoomController {
 
+    // Field-based dependency injection
     private final RoomService roomService;
 
+    // Constructor-based dependency injection
     @Autowired
     public RoomController(RoomService roomService) {
         this.roomService = roomService;
     }
 
+    // Endpoint to get all rooms
     @GetMapping
     public ResponseEntity<List<RoomDTO>> getAllRooms() {
+        // Get all Room entities
         List<RoomDTO> rooms = roomService.getAllRooms();
+        // Response status code 200 OK
         return ResponseEntity.ok(rooms);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RoomDTO> getRoomById(@PathVariable Long id) {
         RoomDTO room = roomService.getRoomById(id);
+        // Response status code 200 OK
         return ResponseEntity.ok(room);
     }
 
+    // Endpoint to create a room
     @PostMapping
     public ResponseEntity<RoomDTO> createRoom(@RequestBody @Valid RoomDTO roomDTO) {
         RoomDTO createdRoom = roomService.createRoom(roomDTO);
+        // Response status code 201 Created
         return new ResponseEntity<>(createdRoom, HttpStatus.CREATED);
     }
 
@@ -44,12 +52,14 @@ public class RoomController {
             @PathVariable Long id,
             @RequestBody @Valid RoomDTO roomDTO) {
         RoomDTO updatedRoom = roomService.updateRoom(id, roomDTO);
+        // Response status code 200 OK
         return ResponseEntity.ok(updatedRoom);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRoom(@PathVariable Long id) {
         roomService.deleteRoom(id);
+        // Response status code 204 No Content
         return ResponseEntity.noContent().build();
     }
 }

@@ -12,18 +12,19 @@ public class RoomDTO {
     // Getters and setters
     private Long id;
 
-    @NotBlank(message="Room name is required. Enter a room name.")
+    @NotBlank(message="Room name is required. Enter a room name.") // Exception handling for validation
     private String name;
     // Description is not needed
     private String description;
-    @Positive(message="Capacity must be a positive number. Enter a positive number.")
+    @Positive(message="Capacity must be a positive number. Enter a positive number.") // Exception handling for validation
     private Integer capacity;
 
-    // Constructors, getters and setters
+    // Default constructor needed for JPA
     public RoomDTO() {
 
     }
 
+    // Constructor with fields
     public RoomDTO(Long id, String name, String description, Integer capacity) {
         this.id = id;
         this.name = name;

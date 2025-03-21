@@ -24,18 +24,21 @@ public class TaskController {
     @GetMapping
     public ResponseEntity<List<TaskDTO>> getAllTasks() {
         List<TaskDTO> tasks = taskService.getAllTasks();
+        // Response status code 200 OK
         return ResponseEntity.ok(tasks);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<TaskDTO> getTaskById(@PathVariable Long id) {
         TaskDTO task = taskService.getTaskById(id);
+        // Response status code 200 OK
         return ResponseEntity.ok(task);
     }
 
     @PostMapping
     public ResponseEntity<TaskDTO> createTask(@RequestBody @Valid TaskDTO taskDTO) {
         TaskDTO createdTask = taskService.createTask(taskDTO);
+        // Response status code 201 Created
         return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
     }
 
@@ -44,12 +47,14 @@ public class TaskController {
             @PathVariable Long id,
             @RequestBody @Valid TaskDTO taskDTO) {
         TaskDTO updatedTask = taskService.updateTask(id, taskDTO);
+        // Response status code 200 OK
         return ResponseEntity.ok(updatedTask);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
         taskService.deleteTask(id);
+        // Response status code 204 No Content
         return ResponseEntity.noContent().build();
     }
 }

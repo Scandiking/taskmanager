@@ -7,6 +7,12 @@ This is an assignment done in order to qualify for the exam in application devel
 ---
 
 ## Table of Contents
+<details>
+
+<summary>
+Click to expand...
+</summary>
+
 <!-- TOC -->
 * [Arbeidskrav 2/2: Spring Boot REST API Development](#arbeidskrav-22-spring-boot-rest-api-development)
   * [Table of Contents](#table-of-contents)
@@ -32,8 +38,35 @@ This is an assignment done in order to qualify for the exam in application devel
       * [DELETE](#delete-1)
     * [Endpoint 3: Tasks](#endpoint-3-tasks)
   * [Setup instructions for running the API locally](#setup-instructions-for-running-the-api-locally)
+  * [Testing the API](#testing-the-api)
+    * [Rooms](#rooms)
+      * [GET](#get-2)
+      * [POST](#post-2)
+      * [PUT](#put-2)
+      * [DELETE](#delete-2)
+    * [Persons](#persons)
+      * [GET](#get-3)
+      * [POST](#post-3)
+      * [PUT](#put-3)
+      * [DELETE](#delete-3)
+    * [Tasks](#tasks)
+      * [GET](#get-4)
+      * [POST](#post-4)
+      * [PUT](#put-4)
+      * [DELETE](#delete-4)
+    * [PersonRooms](#personrooms)
+      * [GET](#get-5)
+      * [POST](#post-5)
+      * [PUT](#put-5)
+      * [DELETE](#delete-5)
+    * [TaskPersons](#taskpersons)
+      * [GET](#get-6)
+      * [POST](#post-6)
+      * [PUT](#put-6)
+      * [DELETE](#delete-6)
   * [API documentation](#api-documentation)
 <!-- TOC -->
+</details>
 
 ---
 
@@ -50,13 +83,6 @@ This assignment ensures that each team member develops fundamental skills in bui
 <summary>
 Click to expand...
 </summary>
-
----
-
-
-
----
-
 
 ### 1. Develop REST API endpoints
   - Each team member should design and implement 3-4 REST endpoints using Spring Boot.
@@ -99,6 +125,8 @@ __Note:__ While the implementations are individual, ensure your API design align
 ## Endpoints
 
 <CITE>«Each team member should design and implement 3-4 REST endpoints using Spring Boot»</CITE>
+
+<img src="src/main/resources/static/images/APP2000-Arbeidskrav2-example-of-relations-with-two-persons-and-four-tasks-in-one-room.png" alt="Example image of entity relations exemplified with two actual records." height="500px"/>
 
 Endpoint 1: Rooms ([localhost:3000/api/rooms]("api/rooms"))
 - Get all rooms `GET`
@@ -355,6 +383,195 @@ To
 6. Use Postman to test the endpoints by using the instructions on localhost:3000/api/.
 7. Read this document to see what those endpoints are and how to use them
 8. Enjoy!
+
+---
+
+## Testing the API
+
+Here are examples to copy and paste into Postman using the `taskmanager` database as it is after the setup instructions. 
+
+### Rooms
+
+#### GET
+
+Just go to `localhost:3000/api/rooms` in your browser. No need for Postman here.
+
+#### POST
+
+```json
+{
+  "name": "Room 1",
+  "description": "This is a generic room",
+  "capacity": 10
+}
+```
+
+```json
+{
+  "name": "Dormitory dining hall",
+  "description": "Dark academia styled dining hall",
+  "capacity": 100
+}
+```
+
+```json
+{
+  "name": "Ringerike Rådhus",
+  "description": "The town hall of Ringerike",
+  "capacity": 500
+}
+```
+
+```json        
+{
+  "name": "Meløy kulturhus",
+  "description": "Rural cultural house",
+  "capacity": 550
+}
+```
+
+You are not able to add multiple rooms at once from the API. 
+
+#### PUT
+
+Once again, take note of the ID you want to `PUT`. 
+```json
+{
+  "id": 1,
+  "name": "Room 1",
+  "description": "This is a bigger room now so we will update the capacity to 20",
+  "capacity": 20
+}
+```
+
+#### DELETE
+
+Take note of the ID you want to `DELETE`. Go to `localhost:3000/api/rooms/{id}` in Postman and use the `DELETE` method. When you are on say `localhost:3000/api/rooms/1`, you just need the ID in the raw text field in Postman like this:
+```json
+{
+  "id": 1
+}
+```
+and hit send. It should return `204 No Content` if everything went as expected.
+
+### Persons
+
+#### GET
+
+Just go to `localhost:3000/api/persons` in your browser. No need for Postman here.
+
+#### POST
+In Postman, `POST` the following to `localhost:3000/api/persons`:
+```json
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "mail@company.com",
+  "phone":"047 12345"
+}
+```
+Leave out any mentions of the ID. It will be generated automatically.
+
+```json
+{
+  "firstName": "Jane",
+  "lastName": "Doe",
+  "email": "email@anothercompany.com",
+  "phone": "322 54321"
+}
+```
+
+```json
+{
+  "firstName": "Jane",
+  "lastName": "Austen",
+  "email": "email2@electronicmailcompany.com",
+  "phone": "987 65432"
+}
+```
+
+```json
+{
+  "firstName": "Michael",
+  "lastName": "Bolton",
+  "email": "AllThatMatters@SoulProvider.com",
+  "phone": "155 68732"
+}
+```
+
+```json
+{
+  "firstName": "Avril",
+  "lastName": "Lavigne",
+  "email": "complicated@nobodyshome.com",
+  "phone": "471 74114"
+}
+```
+
+#### PUT
+First, take note of the ID you want to `PUT`. Then, in Postman, use the `PUT` method and `localhost:3000/api/persons/{id}` as the URL. Replace `{id}` with the ID you took note of. In the input field, put:
+
+```json
+{
+  "id": 1,
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "mail@newcompany.com",
+  "phone": "047 12345"
+}
+ ```
+In this case, you need all fields present in the input field. If you leave out any of the fields, you will get a `400 Bad Request` error.
+
+#### DELETE
+
+Take note of the ID you want to `DELETE`. Go to `localhost:3000/api/persons/{id}` in Postman and use the `DELETE` method. When you are on say `localhost:3000/api/persons/1`, you just need the ID in the raw text field in Postman like this:
+```json
+{
+  "id": 1
+}
+```
+
+
+### Tasks
+
+#### GET
+
+Just go to `localhost:3000/api/tasks` in your browser. No need for Postman here.
+
+#### POST
+
+In Postman, `POST` the following to `localhost:3000/api/tasks`:
+```json
+{
+  "title": "Task 1",
+  "description": "This is a task",
+  "status": "Not started"
+}
+```
+
+#### PUT
+
+#### DELETE
+
+### PersonRooms
+
+#### GET
+
+#### POST
+
+#### PUT
+
+#### DELETE
+
+### TaskPersons
+
+#### GET
+
+#### POST
+
+#### PUT
+
+#### DELETE
 
 ---
 

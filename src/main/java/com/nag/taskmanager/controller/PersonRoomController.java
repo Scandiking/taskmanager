@@ -25,13 +25,17 @@ public class PersonRoomController {
     public ResponseEntity<PersonRoomDTO> createPersonRoom(@Valid @RequestBody PersonRoomDTO personRoomDTO) {
         PersonRoom created = personRoomService.assignPersonToRoom(personRoomDTO);
         PersonRoomDTO response = convertToDTO(created);
+        // Response status code 201 Created
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping
     public List<PersonRoomDTO> getAllPersonRooms() {
+        // Get all PersonRoom entities
         return personRoomService.getAllPersonRooms().stream()
+                // Convert each PersonRoom entity to a PersonRoomDTO
                 .map(this::convertToDTO)
+                // Collect all PersonRoomDTOs into a list
                 .collect(Collectors.toList());
     }
 

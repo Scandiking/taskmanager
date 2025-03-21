@@ -24,18 +24,21 @@ public class PersonController {
     @GetMapping
     public ResponseEntity<List<PersonDTO>> getAllPersons() {
         List<PersonDTO> persons = personService.getAllPersons();
+        // Response status code 200 OK
         return ResponseEntity.ok(persons);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PersonDTO> getPersonById(@PathVariable Long id) {
         PersonDTO person = personService.getPersonById(id);
+        // Response status code 200 OK
         return ResponseEntity.ok(person);
     }
 
     @PostMapping
     public ResponseEntity<PersonDTO> createPerson(@Valid @RequestBody PersonDTO personDTO) {
         PersonDTO createdPerson = personService.createPerson(personDTO);
+        // Response status code 201 Created
         return new ResponseEntity<>(createdPerson, HttpStatus.CREATED);
     }
 
@@ -44,12 +47,14 @@ public class PersonController {
             @PathVariable Long id,
             @RequestBody @Valid PersonDTO personDTO) {
         PersonDTO updatedPerson = personService.updatePerson(id, personDTO);
+        // Response status code 200 OK
         return ResponseEntity.ok(updatedPerson);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePerson(@PathVariable Long id) {
         personService.deletePerson(id);
+        // Response status code 204 No Content
         return ResponseEntity.noContent().build();
     }
 }

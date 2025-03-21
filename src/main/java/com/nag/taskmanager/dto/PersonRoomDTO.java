@@ -1,16 +1,14 @@
 package com.nag.taskmanager.dto;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
 
 public class PersonRoomDTO {
 
     private Long id;
 
-    @NotNull(message="Person ID is required. Enter a person ID.")
+    @NotNull(message="Person ID is required. Enter a person ID.") // Exception handling for validation
     private Long personId;
 
-    @NotNull(message="Room ID is required. Enter a room ID.")
+    @NotNull(message="Room ID is required. Enter a room ID.") // Exception handling for validation
     private Long roomId;
 
     private String role; // Optional field
