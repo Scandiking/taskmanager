@@ -2,7 +2,7 @@
 
 ---
 
-This is an assignment done in order to qualify for the exam in application development APP2000 at University of South-Eastern Norway at campus Ringerike in Hønefoss.
+This is an assignment done in order to qualify for the exam in application development APP2000 at University of South-Eastern Norway at campus Ringerike in Hønefoss. It is an application programming interface consisting of entities of rooms, persons and tasks that you can perform CRUD operations on by using your web browser (only for read) and/or Postman to create, read, update and delete.
 
 ---
 
@@ -576,43 +576,51 @@ In Postman, `POST` the following to `localhost:3000/api/tasks`:
 ---
 
 ## API documentation
-- com.nag.taskmanager
-  - Controller
-    - ApiIndexController
-      - Makes sure that the API is running. Also shows the available endpoints.
-    - PersonController
-      - Controls the Person endpoints
-    - RoomController
-      - Controls the Room endpoints
-    - TaskController
-      - Controls the Task endpoints
-  - DTO
-    - PersonDTO
-      - Used for creating and updating persons not to expose the database
-    - RoomDTO
-      - Used for creating and updating rooms not to expose the database
-    - TaskCreateDTO
-      - Used for creating tasks not to expose the database
-    - TaskDTO
-      - Used for updating tasks not to expose the database
-  - Model
-    - Person
-      - Works as a model for the Person entity in the database. Also used for creating and updating persons.
-    - Room
-      - Works as a model for the Room entity in the database. Also used for creating and updating rooms.
-    - Task
-      - Works as a model for the Task entity in the database. Also used for creating and updating tasks.
-  - Repository
-    - PersonRepository
-      - Used for accessing the database.
-    - RoomRepository
-      - Used for accessing the database
-    - TaskRepository
-      - Used for accessing the database
-  - Service
-    - PersonService
-      - Used for business logic
-    - RoomService
-      - Used for business logic
-    - TaskService
-      - Used for business logic
+
+### 📁 com.nag.taskmanager
+
+#### 📦 Controllers
+- 📄 __ApiIndexController__
+  - Provides a central navigation hub for discovering available API endpoints. See api-index.html for more information.
+    - /api/
+      - /api/rooms
+      - /api/persons
+      - /api/tasks
+- 📄 PersonController
+  - Controls the Person endpoints so that you can manage persons.
+- 📄 RoomController
+  - Controls the Room endpoints so that you can manage rooms.
+- 📄 TaskController
+  - Controls the Task endpoints so that you can manage tasks.
+      
+#### 📦 DTO (Data Transfer Objects)
+- 📄 __PersonDTO__
+  - Used for creating and updating persons not to expose the database. @NotBlank annotation is used for input validation. If the fields annotated with @NotBlank are left empty, a 400 Bad Request error will be returned to the user. Constructs a Person object from the PersonDTO object with the fields firstName, lastName, email, and phone.
+- 📄 __RoomDTO__
+  - Used for creating and updating rooms not to expose the database. @NotBlank annotation is used for input validation. If the fields annotated with @NotBlank are left empty, a 400 Bad Request error will be returned to the user. Constructs a Room object from the RoomDTO object with the fields name, description, and capacity.
+- 📄 __TaskDTO__
+  - Used for updating tasks not to expose the database. @NotBlank annotation is used for input validation. If the fields annotated with @NotBlank are left empty, a 400 Bad Request error will be returned to the user. Constructs a Task object from the TaskDTO object with the fields name, description, roomId, creatorId, assigneeIds, and status.
+    
+#### 📦 Models
+- __Person__
+    - Works as a model for the Person entity in the database. Also used for creating and updating persons.
+- __Room__
+  - Works as a model for the Room entity in the database. Also used for creating and updating rooms.
+- __Task__
+  - Works as a model for the Task entity in the database. Also used for creating and updating tasks.
+      
+#### 📦 Repositories
+  - PersonRepository
+    - Used for accessing the database.
+  - RoomRepository
+    - Used for accessing the database
+  - TaskRepository
+    - Used for accessing the database
+
+#### 📦 Services
+  - PersonService
+    - Used for business logic
+  - RoomService
+    - Used for business logic
+  - TaskService
+    - Used for business logic
