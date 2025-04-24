@@ -14,7 +14,7 @@ import java.util.Map;
 @RequestMapping("/api")
 public class ApiIndexController {
 
-    @GetMapping("/")
+    @GetMapping("")
     public String getApiIndex(Model model) {
         // Add endpoint information to the model
         model.addAttribute("endpoints", List.of(

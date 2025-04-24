@@ -1,6 +1,10 @@
 # Arbeidskrav 2/2: Spring Boot REST API Development
 
+
+![Entities of this repository. Rooms, persons and tasks](src/main/resources/static/images/TaskManager.png)
+
 ---
+
 
 This is an assignment done in order to qualify for the exam in application development APP2000 at University of South-Eastern Norway at campus Ringerike in Hønefoss. It is an application programming interface consisting of entities of rooms, persons and tasks that you can perform CRUD operations on by using your web browser (only for read) and/or Postman to create, read, update and delete.
 
@@ -65,6 +69,12 @@ Click to expand...
       * [PUT](#put-6)
       * [DELETE](#delete-6)
   * [API documentation](#api-documentation)
+    * [📁 com.nag.taskmanager](#-comnagtaskmanager)
+      * [📦 Controllers](#-controllers)
+      * [📦 DTO (Data Transfer Objects)](#-dto-data-transfer-objects)
+      * [📦 Models](#-models)
+      * [📦 Repositories](#-repositories)
+      * [📦 Services](#-services)
 <!-- TOC -->
 </details>
 
@@ -126,30 +136,30 @@ __Note:__ While the implementations are individual, ensure your API design align
 
 <CITE>«Each team member should design and implement 3-4 REST endpoints using Spring Boot»</CITE>
 
-<img src="src/main/resources/static/images/APP2000-Arbeidskrav2-example-of-relations-with-two-persons-and-four-tasks-in-one-room.png" alt="Example image of entity relations exemplified with two actual records." height="500px"/>
+<img src="src/main/resources/static/images/APP2000-Arbeidskrav2-example-of-relations-with-two-persons-and-four-tasks-in-one-room.png" alt="Example image of entity relations exemplified with two actual records." width="100%"/>
 
-Endpoint 1: Rooms ([localhost:3000/api/rooms]("api/rooms"))
+Endpoint 1: Rooms ([localhost:8080/api/rooms]("api/rooms"))
 - Get all rooms `GET`
 - Get room by ID `GET`
 - Create room `POST`
 - Update room `PUT`
 - Delete room `DELETE`
 
-Endpoint 2: Persons ([localhost:3000/api/persons]("api/persons"))
+Endpoint 2: Persons ([localhost:8080/api/persons]("api/persons"))
 - Get all persons `GET`
 - Get person by ID `GET`
 - Create person `POST`
 - Update person `PUT`
 - Delete person `DELETE`
 
-Endpoint 3: Tasks ([localhost:3000/api/tasks]("api/tasks"))
+Endpoint 3: Tasks ([localhost:8080/api/tasks]("api/tasks"))
 - Get all tasks `GET`
 - Get task by ID `GET`
 - Create task `POST`
 - Update task `PUT`
 - Delete task `DELETE`
 
-OK. You might have noticed that you can not create a task using only a task `id`, task `title` and optionally task `description`. This gives a `400 Bad Request` error. This is to expect. Who created the task? Who is the task for? Is it completed? We can not know tell if we only `POST` the afforementioned fields. We will need some fields from other tables (`Person`, `Room`) as well. You might have gotten a long String of errors. These are the important parts now:
+OK. You might have noticed that you cannot create a task using only a task `id`, task `title` and optionally task `description`. This gives a `400 Bad Request` error. This is to expect. Who created the task? Who is the task for? Is it completed? We can not know tell if we only `POST` the afforementioned fields. We will need some fields from other tables (`Person`, `Room`) as well. You might have gotten a long String of errors. These are the important parts now:
 
 ```error
 default message [roomId]]; 
@@ -178,10 +188,10 @@ Make sure to have the square brackets around the `assigneeIds` field. This is be
 ### Endpoint 1: Rooms
 
 #### GET
-To retrieve (`GET`) all rooms there is, you can simply go to `localhost:3000/api/rooms` in your browser. It should return `200 OK` and `[]` if there are no rooms in the database. If there are rooms in the database, it should return `200 OK` and a list of rooms. If you want to get a specific room, take note of the room ID and go to `localhost:3000/api/rooms/{id}` in your browser. Replace `{id}` with the room ID you took note of. It should return `200 OK` and the room you wanted to get.
+To retrieve (`GET`) all rooms there is, you can simply go to `localhost:8080/api/rooms` in your browser. It should return `200 OK` and `[]` if there are no rooms in the database. If there are rooms in the database, it should return `200 OK` and a list of rooms. If you want to get a specific room, take note of the room ID and go to `localhost:8080/api/rooms/{id}` in your browser. Replace `{id}` with the room ID you took note of. It should return `200 OK` and the room you wanted to get.
 #### POST
 
-`localhost:3000/api/rooms` should initially show `[]` if you are using your browser and have no data inserted (`POST`-ed). This is because there are no records of rooms in the database. Let us populate it by creating a room using the `POST` method in Postman. In the input field, put:
+`localhost:8080/api/rooms` should initially show `[]` if you are using your browser and have no data inserted (`POST`-ed). This is because there are no records of rooms in the database. Let us populate it by creating a room using the `POST` method in Postman. In the input field, put:
 
 ```json
 {
@@ -236,11 +246,11 @@ To
 
 1. Get all rooms
 
-    - You just need to put localhost:3000/api/rooms in your browser
+    - You just need to put localhost:8080/api/rooms in your browser
    
 2. Get a specific room
 
-    - You need to put localhost:3000/api/rooms/{id} in your browser. Replace {id} with the id of the room you want to get.
+    - You need to put localhost:8080/api/rooms/{id} in your browser. Replace {id} with the id of the room you want to get.
    
 3. Create a room
     - You need to use the `POST` method in Postman with the following input:
@@ -264,7 +274,7 @@ To
       ```
 
 5. Delete a room
-    - You need to use the `DELETE` method in Postman with the URL `localhost:3000/api/rooms/{id}`. Replace {id} with the id of the room you want to delete.
+    - You need to use the `DELETE` method in Postman with the URL `localhost:8080/api/rooms/{id}`. Replace {id} with the id of the room you want to delete.
 
 ---
 
@@ -273,9 +283,9 @@ To
 #### GET
 
 ##### Get all persons
-- You just need to put `localhost:3000/api/persons` in your browser
+- You just need to put `localhost:80800/api/persons` in your browser
 ##### Get a specific person
-- You need to put `localhost:3000/api/persons/{id}` in your browser. Replace `{id}` with the ID of the person you want to get. If you don't know the ID, you can use the `GET` method to get all persons and find the ID there.
+- You need to put `localhost:8080/api/persons/{id}` in your browser. Replace `{id}` with the ID of the person you want to get. If you don't know the ID, you can use the `GET` method to get all persons and find the ID there.
 
 
 #### POST
@@ -319,7 +329,7 @@ To
 
 #### DELETE
 
-- You need to use the `DELETE` method in Postman with the URL `localhost:3000/api/persons/{id}`. Replace {id} with the id of the person you want to delete.
+- You need to use the `DELETE` method in Postman with the URL `localhost:8080/api/persons/{id}`. Replace {id} with the id of the person you want to delete.
   ```json
   {
       "id": 1,
@@ -335,10 +345,10 @@ To
 ### Endpoint 3: Tasks
 
 1. Get all tasks
-    - You just need to put localhost:3000/api/tasks in your browser
+    - You just need to put localhost:8080/api/tasks in your browser
 
 2. Get a specific task
-    - You need to put localhost:3000/api/tasks/{id} in your browser. Replace {id} with the id of the task you want to get. If you don't know the id, you can use the `GET` method to get all tasks and find the id there.
+    - You need to put localhost:8080/api/tasks/{id} in your browser. Replace {id} with the id of the task you want to get. If you don't know the id, you can use the `GET` method to get all tasks and find the id there.
 
 3. Create a task
     - You need to use the `POST` method in Postman with the following input:
@@ -364,7 +374,7 @@ To
       ```
       
 5. Delete a task
-    - You need to use the `DELETE` method in Postman with the URL `localhost:3000/api/tasks/{id}`. Replace {id} with the id of the task you want to delete.
+    - You need to use the `DELETE` method in Postman with the URL `localhost:8080/api/tasks/{id}`. Replace {id} with the id of the task you want to delete.
 
 ---
 
@@ -378,9 +388,9 @@ To
 2. Open the project in your IDE
 3. Open PostgreSQL and create a database called "taskmanager". Keep PostgreSQL running.
 4. Run the project from your IDE that supports Java
-5. Go to your browser and enter `localhost:3000/api/` to see if the project is running.
-   - If it is not, make sure that the Postgres user is "postgres" and the password for the postgres user is "123". If it is not, you can change it in the `application.properties` file in the `src/main/resources` folder. You can also change the port from 3000 to something else if you want to. Just make sure that the port is not already in use.
-6. Use Postman to test the endpoints by using the instructions on localhost:3000/api/.
+5. Go to your browser and enter `localhost:8080/api` to see if the project is running.
+   - If it is not, make sure that the Postgres user is "postgres" and the password for the postgres user is "123". If it is not, you can change it in the `application.properties` file in the `src/main/resources` folder. You can also change the port from 8080 to something else if you want to. Just make sure that the port is not already in use.
+6. Use Postman to test the endpoints by using the instructions on localhost:8080/api/.
 7. Read this document to see what those endpoints are and how to use them
 8. Enjoy!
 
@@ -394,7 +404,7 @@ Here are examples to copy and paste into Postman using the `taskmanager` databas
 
 #### GET
 
-Just go to `localhost:3000/api/rooms` in your browser. No need for Postman here.
+Just go to `localhost:8080/api/rooms` in your browser. No need for Postman here.
 
 #### POST
 
@@ -446,7 +456,7 @@ Once again, take note of the ID you want to `PUT`.
 
 #### DELETE
 
-Take note of the ID you want to `DELETE`. Go to `localhost:3000/api/rooms/{id}` in Postman and use the `DELETE` method. When you are on say `localhost:3000/api/rooms/1`, you just need the ID in the raw text field in Postman like this:
+Take note of the ID you want to `DELETE`. Go to `localhost:8080/api/rooms/{id}` in Postman and use the `DELETE` method. When you are on say `localhost:8080/api/rooms/1`, you just need the ID in the raw text field in Postman like this:
 ```json
 {
   "id": 1
@@ -458,10 +468,10 @@ and hit send. It should return `204 No Content` if everything went as expected.
 
 #### GET
 
-Just go to `localhost:3000/api/persons` in your browser. No need for Postman here.
+Just go to `localhost:8080/api/persons` in your browser. No need for Postman here.
 
 #### POST
-In Postman, `POST` the following to `localhost:3000/api/persons`:
+In Postman, `POST` the following to `localhost:8080/api/persons`:
 ```json
 {
   "firstName": "John",
@@ -509,7 +519,7 @@ Leave out any mentions of the ID. It will be generated automatically.
 ```
 
 #### PUT
-First, take note of the ID you want to `PUT`. Then, in Postman, use the `PUT` method and `localhost:3000/api/persons/{id}` as the URL. Replace `{id}` with the ID you took note of. In the input field, put:
+First, take note of the ID you want to `PUT`. Then, in Postman, use the `PUT` method and `localhost:8080/api/persons/{id}` as the URL. Replace `{id}` with the ID you took note of. In the input field, put:
 
 ```json
 {
@@ -524,7 +534,7 @@ In this case, you need all fields present in the input field. If you leave out a
 
 #### DELETE
 
-Take note of the ID you want to `DELETE`. Go to `localhost:3000/api/persons/{id}` in Postman and use the `DELETE` method. When you are on say `localhost:3000/api/persons/1`, you just need the ID in the raw text field in Postman like this:
+Take note of the ID you want to `DELETE`. Go to `localhost:8080/api/persons/{id}` in Postman and use the `DELETE` method. When you are on say `localhost:8080/api/persons/1`, you just need the ID in the raw text field in Postman like this:
 ```json
 {
   "id": 1
@@ -536,11 +546,11 @@ Take note of the ID you want to `DELETE`. Go to `localhost:3000/api/persons/{id}
 
 #### GET
 
-Just go to `localhost:3000/api/tasks` in your browser. No need for Postman here.
+Just go to `localhost:8080/api/tasks` in your browser. No need for Postman here.
 
 #### POST
 
-In Postman, `POST` the following to `localhost:3000/api/tasks`:
+In Postman, `POST` the following to `localhost:8080/api/tasks`:
 ```json
 {
   "title": "Task 1",
