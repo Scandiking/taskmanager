@@ -398,7 +398,13 @@ To
 
 ## Testing the API
 
-Here are examples to copy and paste into Postman using the `taskmanager` database as it is after the setup instructions. 
+Here are examples to copy and paste into Postman using the `taskmanager` database as it is after the setup instructions.
+If you prefer or know how to, you can also import a started database by opening Bash and enter   
+```Bash
+psql -U {yourUsername} -a taskmanager < handy_taskmanager_database.sql
+```
+
+This way you won't have to manually add entries. If you _do_ want to add entries manually or did not get to import the database:
 
 ### Rooms
 

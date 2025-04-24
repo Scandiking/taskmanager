@@ -2,6 +2,7 @@ package com.nag.taskmanager.controller;
 
 import com.nag.taskmanager.dto.PersonDTO;
 import com.nag.taskmanager.service.PersonService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ public class PersonController {
     }
 
     @GetMapping
+    @Operation(summary = "Get all persons", description = "Retrieve a list of all persons")
     public ResponseEntity<List<PersonDTO>> getAllPersons() {
         List<PersonDTO> persons = personService.getAllPersons();
         // Response status code 200 OK
@@ -29,6 +31,7 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get person by ID", description = "Retrieve a person by their ID")
     public ResponseEntity<PersonDTO> getPersonById(@PathVariable Long id) {
         PersonDTO person = personService.getPersonById(id);
         // Response status code 200 OK
@@ -36,6 +39,7 @@ public class PersonController {
     }
 
     @PostMapping
+    @Operation(summary = "Create a new person", description = "Create a new person with the provided details")
     public ResponseEntity<PersonDTO> createPerson(@Valid @RequestBody PersonDTO personDTO) {
         PersonDTO createdPerson = personService.createPerson(personDTO);
         // Response status code 201 Created
@@ -43,6 +47,7 @@ public class PersonController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Update an existing person", description = "Update the details of an existing person")
     public ResponseEntity<PersonDTO> updatePerson(
             @PathVariable Long id,
             @RequestBody @Valid PersonDTO personDTO) {
@@ -52,6 +57,7 @@ public class PersonController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete a person", description = "Delete a person by using their ID")
     public ResponseEntity<Void> deletePerson(@PathVariable Long id) {
         personService.deletePerson(id);
         // Response status code 204 No Content
