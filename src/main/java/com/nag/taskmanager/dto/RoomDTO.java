@@ -1,5 +1,6 @@
 package com.nag.taskmanager.dto;
 
+import com.nag.taskmanager.model.Room;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
@@ -20,7 +21,11 @@ public class RoomDTO {
     private Integer capacity;
 
     // Default constructor needed for JPA
-    public RoomDTO() {
+    public RoomDTO(Room room) {
+        this.id = room.getId();
+        this.name = room.getName();
+        this.description = room.getDescription();
+        this.capacity = room.getCapacity();
 
     }
 

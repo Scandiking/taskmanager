@@ -2,11 +2,11 @@ package com.nag.taskmanager.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import java.util.List;
+
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-
 
 @Setter
 @Getter
@@ -27,17 +27,27 @@ public class TaskDTO {
     @NotNull(message="Room ID is required. Enter a room ID.")
     private Long roomId;
 
-    private List<Long> assigneeIds; // Optional field
+    @NotNull(message="Asignee IDs are required. Please assign the task to at least one person.")
+    @Size(min=1, message="Assign the task to at least one person.")
+    private List<Long> assigneeIds;
 
     // Constructors, getters and setters
     public TaskDTO() {
-
     }
 
-    public TaskDTO(Long id, String name, String description) {
+    /*
+    public TaskDTO(Long id, String name, String description, Long creatorId, Long roomId, List<Long> assigneeIds) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.creatorId = creatorId;
+        this.roomId = roomId;
+        this.assigneeIds = assigneeIds;
+    }
+    */
+
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
     }
 
 }

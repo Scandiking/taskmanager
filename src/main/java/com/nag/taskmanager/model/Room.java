@@ -27,26 +27,6 @@ public class Room {
     @Column
     private Integer capacity;
 
-    @OneToMany(mappedBy = "room")
-    private Set<PersonRoom> personRooms = new HashSet<>();
-
-
-    public Set<Person> getPersons() {
-        Set<Person> result = new HashSet<>();
-        for (PersonRoom pr : personRooms) {
-            result.add(pr.getPerson());
-        }
-        return result;
-    }
-
-    // Add a person through the join relationship
-    public void addPerson(Person person) {
-        PersonRoom personRoom = new PersonRoom();
-        personRoom.setPerson(person);
-        personRoom.setRoom(this);
-        this.personRooms.add(personRoom);
-    }
-
     // Default construtor required by JPA
     public Room() {
 

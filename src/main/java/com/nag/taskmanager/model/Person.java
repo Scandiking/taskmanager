@@ -7,10 +7,8 @@ package com.nag.taskmanager.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -50,13 +48,20 @@ public class Person {
     @NotBlank
     private String phone;
 
-    // One person can be assigned to multiple rooms
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PersonRoom> personRooms = new ArrayList<>();
-
-
     @ManyToMany(mappedBy = "assignees")
     private Set<Task> tasks = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name="person_room",
+            joinColumns = @JoinColumn(name="person_id"),
+            inverseJoinColumns = @JoinColumn(name="room_id")
+    )
+    private Set<Room> rooms = new HashSet<>();
+
+    public Set<Room> getRooms() {
+        return rooms;
+    }
 
 
 
@@ -106,4 +111,5 @@ public class Person {
                 ", phone='" + phone + '\'' +
                 '}';
     }
+
 }

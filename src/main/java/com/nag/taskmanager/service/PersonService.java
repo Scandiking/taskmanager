@@ -3,10 +3,16 @@
 package com.nag.taskmanager.service;
 
 import com.nag.taskmanager.dto.PersonDTO;
+import com.nag.taskmanager.dto.RoomDTO;
 import com.nag.taskmanager.model.Person;
+import com.nag.taskmanager.model.Room;
 import com.nag.taskmanager.repository.PersonRepository;
+import com.nag.taskmanager.exception.ResourceNotFoundException;
+
+import com.nag.taskmanager.repository.RoomRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,15 +20,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 import jakarta.persistence.EntityNotFoundException;
 
+
 @Service
 public class PersonService {
 
     private final PersonRepository personRepository;
+    private final RoomRepository roomRepository;
 
     // Constructor-based dependency injection
     @Autowired
-    public PersonService(PersonRepository personRepository) {
+    public PersonService(PersonRepository personRepository, RoomRepository roomRepository) {
         this.personRepository = personRepository;
+        this.roomRepository = roomRepository;
     }
 
     // Business logic to get all persons
@@ -70,6 +79,35 @@ public class PersonService {
         personRepository.deleteById(id);
     }
 
+    // Assign a room to a person
+    @Transactional
+    public void assignRoomToPerson(Long personId, Long roomId) {
+        Person person = personRepository.findById(personId)
+                .orElseThrow(() -> new ResourceNotFoundException("Person not found with id: " + personId));
+
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new ResourceNotFoundException("Room not found with id: " + roomId));
+
+        person.getRooms().add(room);
+        personRepository.save(person);
+    }
+
+    // Remove a room from a person
+    @Transactional
+    public void removeRoomFromPerson(Long personId, Long roomId) {
+        Person person = personRepository.findById(personId)
+                .orElseThrow(() -> new ResourceNotFoundException("Person not found with id: " + personId));
+
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new ResourceNotFoundException("Room not found with id: " + roomId));
+
+        person.getRooms().remove(room);
+        personRepository.save(person);
+    }
+
+
+
+
     // Helper methods to convert between DTO and entity
     private PersonDTO convertToDTO(Person person) {
         return new PersonDTO(
@@ -91,4 +129,16 @@ public class PersonService {
         person.setPhone(personDTO.getPhone());
         return person;
     }
+
+    // Get all rooms for a person
+    public List<RoomDTO> getPersonRooms(Long personId) {
+        Person person = personRepository.findById(personId)
+                .orElseThrow(() -> new ResourceNotFoundException("Person not found with id: " + personId));
+
+        return person.getRooms().stream()
+                .map(room -> new RoomDTO(room))
+                .collect(Collectors.toList());
+    }
+
+
 }

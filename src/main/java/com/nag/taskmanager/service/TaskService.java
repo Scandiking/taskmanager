@@ -4,11 +4,9 @@ package com.nag.taskmanager.service;
 
 import com.nag.taskmanager.dto.TaskDTO;
 import com.nag.taskmanager.model.Person;
-import com.nag.taskmanager.model.PersonRoom;
 import com.nag.taskmanager.model.Room;
 import com.nag.taskmanager.model.Task;
 import com.nag.taskmanager.repository.PersonRepository;
-import com.nag.taskmanager.repository.PersonRoomRepository;
 import com.nag.taskmanager.repository.RoomRepository;
 import com.nag.taskmanager.repository.TaskRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -27,16 +25,14 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final PersonRepository personRepository;
     private final RoomRepository roomRepository;
-    private final PersonRoomRepository personRoomRepository;
 
     // Constructor-based dependency injection
     @Autowired
     public TaskService(TaskRepository taskRepository, PersonRepository personRepository,
-                       RoomRepository roomRepository, PersonRoomRepository personRoomRepository) {
+                       RoomRepository roomRepository) {
         this.taskRepository = taskRepository;
         this.personRepository = personRepository;
         this.roomRepository = roomRepository;
-        this.personRoomRepository = personRoomRepository;
     }
 
     // Business logic to get all tasks
@@ -63,12 +59,10 @@ public class TaskService {
                 .orElseThrow(() -> new EntityNotFoundException("Person not found with id: " + taskDTO.getCreatorId()));
 
         // Validate room exists
-        Room room = roomRepository.findById(taskDTO.getRoomId())
-                .orElseThrow(() -> new EntityNotFoundException("Room not found with id: " + taskDTO.getRoomId()));
-
-        // Validate creator is in the room
-        if (personRoomRepository.findByPerson_IdAndRoom_Id(creator.getId(), room.getId()).isEmpty()) {
-            throw new ValidationException("Creator must be in the specified room");
+        Room room = null;
+        if (taskDTO.getRoomId() != null) {
+            room = roomRepository.findById(taskDTO.getRoomId())
+                    .orElseThrow(() -> new EntityNotFoundException("Room not found with id: " + taskDTO.getRoomId()));
         }
 
         // Get and validate assignees
@@ -77,10 +71,6 @@ public class TaskService {
             for (Long assigneeId : taskDTO.getAssigneeIds()) {
                 Person assignee = personRepository.findById(assigneeId)
                         .orElseThrow(() -> new EntityNotFoundException("Person not found with id: " + assigneeId));
-
-                if (personRoomRepository.findByPerson_IdAndRoom_Id(assignee.getId(), room.getId()).isEmpty()) {
-                    throw new ValidationException("Assignee must be in the specified room");
-                }
                 assignees.add(assignee);
             }
         }
@@ -90,6 +80,10 @@ public class TaskService {
         task.setDescription(taskDTO.getDescription());
         task.setCreator(creator);
         task.setAssignees(assignees);
+
+        if (room != null) {
+            task.setRoom(room);
+        }
 
         Task savedTask = taskRepository.save(task);
         return convertToDTO(savedTask);
@@ -128,6 +122,10 @@ public class TaskService {
             dto.setCreatorId(task.getCreator().getId());
         }
 
+        if (task.getRoom() != null) {
+            dto.setRoomId(task.getRoom().getId());
+        }
+
         if (task.getAssignees() != null) {
             dto.setAssigneeIds(task.getAssignees().stream()
                     .map(Person::getId)
@@ -145,15 +143,6 @@ public class TaskService {
 
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new EntityNotFoundException("Room not found"));
-
-        // Get all persons in the room using the join entity
-        Set<Person> personsInRoom = personRoomRepository.findByRoom_Id(roomId)
-                .stream()
-                .map(PersonRoom::getPerson)
-                .collect(Collectors.toSet());
-
-        // Assign task to all persons in the room
-        task.setAssignees(new HashSet<>(personsInRoom));
 
         Task savedTask = taskRepository.save(task);
         return convertToDTO(savedTask);

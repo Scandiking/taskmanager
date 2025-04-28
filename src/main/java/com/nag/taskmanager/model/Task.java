@@ -1,7 +1,10 @@
 // Entity class that represents Task entity
 
 package com.nag.taskmanager.model;
+
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+
 import java.util.Set;
 import java.util.HashSet;
 
@@ -19,41 +22,27 @@ public class Task {
     @Column
     private String description;
 
-    @Column
+    @Column(nullable = false)
     private boolean completed;
 
-    @ManyToMany
-    @JoinTable(
-            name = "task_person",
-            joinColumns = @JoinColumn(name="task_id"),
-            inverseJoinColumns = @JoinColumn(name="person_id")
-    )
-    private Set<Person> assignees = new HashSet<>();
-
     @ManyToOne
-    @JoinColumn(name="creator_id")
+    @JoinColumn(name="creator_id",nullable=false)
     private Person creator;
 
     @ManyToMany
     @JoinTable(
-            name="task_assignees",
-            joinColumns = @JoinColumn(name = "task_id"),
-            inverseJoinColumns = @JoinColumn(name = "person_id")
+            name = "task_assignees",
+            joinColumns = @JoinColumn(name="task_id"),
+            inverseJoinColumns = @JoinColumn(name="person_id")
     )
+    @NotEmpty(message="A task must have at least one assignee.")
+    private Set<Person> assignees = new HashSet<>();
 
-    public Set<Person> getAssignees() {
-        return assignees;
-    }
+    @ManyToOne
+    @JoinColumn(name="room_id",nullable=false)
+    private Room room;
 
-    public void setAssignees(Set<Person> assignees) {
-        this.assignees = assignees;
-    }
-
-    // No direct relationship with Room
-
-    // Default constructor required by JPA
     public Task() {
-
     }
 
     // Constructor with fields
@@ -63,17 +52,10 @@ public class Task {
         this.completed = completed;
     }
 
+
     // Getters and setters
     public Long getId() {
         return id;
-    }
-
-    public Person getCreator() {
-        return creator;
-    }
-
-    public void setCreator(Person creator) {
-        this.creator = creator;
     }
 
     public void setId(Long id) {
@@ -103,6 +85,35 @@ public class Task {
     public void setCompleted(boolean completed) {
         this.completed = completed;
     }
+
+    public Person getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Person creator) {
+        this.creator = creator;
+    }
+
+    public Set<Person> getAssignees() {
+        return assignees;
+    }
+
+    public void setAssignees(Set<Person> assignees) {
+        this.assignees = assignees;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+
+
+
+
 
     // Equals, hashcode and toString methods
     @Override
